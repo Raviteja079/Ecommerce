@@ -5,7 +5,7 @@ import HandleError from "../utils/handleError.js";
 
 export const verifyUserAuth = handleAsyncError(async(req,res,next)=>{
     const {token} = req.cookies
-    if(!token){
+    if(!token){                     
         return next(new HandleError('Authentication is missing! Pleaes login to access resource', 401))
     }
     const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY)

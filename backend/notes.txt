@@ -8,3 +8,7 @@ crypto.randomBytes()
 -----------------------------------
 Learnings: 
 * use await for asynchrounous operations as they long time other wise they will return promise or null
+*Not passing next in  async(req,res,next) returns error of next is not a function
+------------------------------------------------
+status codes:
+incorrect password etc. - 400
