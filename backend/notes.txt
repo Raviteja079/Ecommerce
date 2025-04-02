@@ -1,0 +1,10 @@
+jwt.sign()
+jwt.verify()
+bcryptjs.hash()
+bcryptjs.compare()
+crypto.createHash()
+crypto.randomBytes()
+
+-----------------------------------
+Learnings: 
+* use await for asynchrounous operations as they long time other wise they will return promise or null
