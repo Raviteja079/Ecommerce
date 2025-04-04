@@ -1,3 +1,4 @@
+import { trusted } from "mongoose";
 import handleAsyncError from "../middleware/handleAsyncError.js";
 import User from "../models/userModel.js";
 import HandleError from "../utils/handleError.js";
@@ -153,4 +154,59 @@ export const updateProfile=handleAsyncError(async(req,res,next)=>{
     user
   })
 
+})
+
+//Admin - get all users
+export const getUsersList=handleAsyncError(async(req,res,next)=>{
+  const users = await User.find()
+  res.status(200).json({
+    success: true,
+    users
+  })
+})
+
+//Admin - get single user
+export const getSingleUser=handleAsyncError(async(req,res,next)=>{
+  const user = await User.findById(req.params.id)
+  if(!user){
+    return next(new HandleError(`User does not exist with id ${req.params.id}`, 404))
+  }
+  res.status(200).json({
+    success: true,
+    user
+  })
+})
+
+//Admin - update user role
+export const updateUserRole = handleAsyncError(async(req,res,next)=>{
+  const {role} = req.body
+  const newUserData = {
+    role
+  }
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: trusted
+  })
+  if(!user){
+    return next(new HandleError(`User does not exist with id ${req.params.id}`, 404))
+  }
+  res.status(200).json({
+    success: true,
+    message: 
+    "User role updated successfully",
+    user
+  })
+})
+
+//Admin - delete user profile
+export const deleteUser = handleAsyncError(async(req,res,next)=>{
+  const user = await User.findById(req.params.id)
+  if(!user){
+    return next(new HandleError(`User does not exist with id ${req.params.id}`, 404))
+  }
+  await User.findByIdAndDelete(req.params.id)
+  res.status(200).json({
+    success: true,
+    message: "User deleted successfully"
+  })
 })
